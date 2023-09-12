@@ -2,11 +2,10 @@
 
 import app from './app.js'
 import { sequelize } from "./database/database.js";
-import './models/ModelAssociations.js'
 
 async function main(){
     try {
-        await sequelize.sync({force:true});
+        await sequelize.sync({force:false});
         //await sequelize.authenticate(); comprobar coneccion
         app.listen(4000)
         console.log('Server is listening in port', 4000)

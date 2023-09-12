@@ -16,6 +16,7 @@ export const User = sequelize.define('users',{
     },
     numberDocument: {
         type: DataTypes.STRING
+        
     },
     bithDate: {
         type: DataTypes.DATE
