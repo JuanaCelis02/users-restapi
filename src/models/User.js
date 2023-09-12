@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../database/database.js' //permite crear tablas y diseñar las relaciones de la BD
 
 //Definicion de tabla (nombre de tabla, objeto define campos de tabla)
-sequelize.define('users',{
+export const User = sequelize.define('users',{
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
