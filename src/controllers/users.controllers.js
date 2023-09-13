@@ -10,6 +10,24 @@ export const getUsers = async (req, res) => {
   }
 };
 
+export const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if(!user)
+      return res.status(404).json({message: "User does not exist"})
+    res.json(user)
+    
+  } catch (error) {
+    return res.status(500).json({message: error.message})
+  }
+}
+
 export const createUser = async (req, res) => {
   try {
     const {

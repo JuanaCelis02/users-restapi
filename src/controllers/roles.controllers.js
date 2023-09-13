@@ -9,6 +9,24 @@ export const getRoles = async (req, res) => {
   }
 };
 
+export const getRoleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const role = await Role.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if(!role)
+      return res.status(404).json({message: "Role does not exist"})
+    res.json(role)
+    
+  } catch (error) {
+    return res.status(500).json({message: error.message})
+  }
+}
+
 export const createRoles = async (req, res) => {
   try {
     const { roleName, descriptionRole, statusRole, creationDate } = req.body;
