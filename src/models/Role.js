@@ -14,8 +14,7 @@ export const Role = sequelize.define('roles', {
         type: DataTypes.STRING
     },
     statusRole: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
+        type: DataTypes.BOOLEAN
     },
     creationDate: {
         type: DataTypes.DATE,

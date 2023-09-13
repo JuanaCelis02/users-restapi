@@ -20,11 +20,27 @@ export const createRoles = async (req, res) => {
       creationDate,
     });
     res.json(newRole);
-    res.send("creating Role");
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const updateRole = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { roleName, descriptionRole, statusRole } = req.body;
+  
+      const role = await Role.findByPk(id);
+      role.roleName = roleName,
+      role.descriptionRole = descriptionRole,
+      role.status = statusRole
+      await role.save();
+  
+      res.json(role);
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  };
 
 export const deleteRole = async(req, res) => {
     try {
