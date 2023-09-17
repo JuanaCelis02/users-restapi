@@ -3,6 +3,11 @@
 import app from './app.js'
 import { sequelize } from "./database/database.js";
 
+import "./models/Role.js"
+import "./models/User.js"
+import "./models/UserRole.js"
+
+
 async function main(){
     try {
         await sequelize.sync({force:false});
