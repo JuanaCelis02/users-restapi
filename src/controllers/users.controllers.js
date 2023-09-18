@@ -1,4 +1,5 @@
 import { User } from "../models/User.js";
+import { validationResult } from "express-validator";
 
 export const getUsers = async (req, res) => {
   try {
@@ -28,30 +29,34 @@ export const getUserById = async (req, res) => {
   }
 }
 
+
 export const createUser = async (req, res) => {
   try {
+    // Validación con express-validator
+    const errors = validationResult(req);
+
+    // Si hay errores de validación, responde con un código de estado 400 y los errores
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Si la validación pasa, crea el nuevo usuario
     const {
       name,
       lastName,
       numberDocument,
-      birthDate,
+      bithDate,
       phoneNumber,
       status,
       registrationDate,
       direction,
     } = req.body;
 
-    //Verifica si los campos requeridos están presentes y los datos son válidos
-    if (!name || !lastName || !numberDocument || !birthDate || !phoneNumber || !status || !registrationDate || !direction) {
-      return res.status(400).json({ message: "Faltan campos requeridos o datos inválidos en la solicitud." });
-    }
-
-    // Realiza la creación del usuario solo si la validación pasa
     const newUser = await User.create({
       name,
       lastName,
       numberDocument,
-      birthDate,
+      bithDate,
       phoneNumber,
       status,
       registrationDate,

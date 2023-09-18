@@ -25,10 +25,12 @@ export const User = sequelize.define('users',{
         type: DataTypes.STRING
     },
     status: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     registrationDate: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
     },
     direction: {
         type: DataTypes.STRING
