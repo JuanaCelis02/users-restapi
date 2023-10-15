@@ -1,2 +1,2 @@
 # Archivos y carpetas a ignorar
-notmodules/
+node_modules/
