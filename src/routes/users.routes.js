@@ -8,6 +8,8 @@ const router = Router()
 export const createUserValidation = [
   body("name").notEmpty().withMessage("El campo 'name' es obligatorio.").isString(),
   body("lastName").notEmpty().withMessage("El campo 'lastName' es obligatorio.").isString(),
+  body("email").notEmpty().notEmpty().isString(),
+  body("password").notEmpty().notEmpty().isString(),
   body("numberDocument").notEmpty().withMessage("El campo 'numberDocument' es obligatorio.").isString(),
   body("birthDate").optional().notEmpty().isDate().isString(),
   body("phoneNumber").optional().notEmpty().isString(),

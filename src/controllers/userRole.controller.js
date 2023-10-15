@@ -27,12 +27,23 @@ export const createUserRole = async (req, res) => {
 
 export const getUsersRole = async (req, res) => {
     try {
-        const usersWithRoles = await User.findAll({
+
+        const page = parseInt(req.query.page) || 1; // Página actual, predeterminada a 1 si no se proporciona.
+        const pageSize = parseInt(req.query.pageSize) || 10; // Tamaño de página, predeterminado a 10 si no se proporciona.
+
+        const offset = (page - 1) * pageSize;
+
+        const {count, rows} = await User.findAndCountAll({
+            limit:pageSize,
+            offset:offset,
             include: {
                 model: Role,
             },
         });
-        res.json(usersWithRoles);
+        res.json({
+            usersWithRoles:rows,
+            total: count
+        });
     } catch (error) {
         console.error(error);
         console.error(error.name);
@@ -42,12 +53,22 @@ export const getUsersRole = async (req, res) => {
 
 export const getRolesAndUsers = async (req, res) => {
     try {
-        const rolesWithUsers = await Role.findAll({
+        const page = parseInt(req.query.page) || 1; // Página actual, predeterminada a 1 si no se proporciona.
+        const pageSize = parseInt(req.query.pageSize) || 10; // Tamaño de página, predeterminado a 10 si no se proporciona.
+
+        const offset = (page - 1) * pageSize;
+
+        const {count, rows} = await Role.findAndCountAll({
+            limit: pageSize,
+            offset:offset,
             include: {
                 model: User,
             },
         });
-        res.json(rolesWithUsers);
+        res.json({
+            rolesWithUsers:rows,
+            total:count
+        });
     } catch (error) {
         console.error(error);
         console.error(error.name);

@@ -3,9 +3,19 @@ import { validationResult } from "express-validator";
 
 export const getUsers = async (req, res) => {
   try {
-    //throw new Error('query failed')
-    const users = await User.findAll();
-    res.json(users);
+    const page = parseInt(req.query.page) || 1; // Página actual, predeterminada a 1 si no se proporciona.
+    const pageSize = parseInt(req.query.pageSize) || 10; // Tamaño de página, predeterminado a 10 si no se proporciona.
+
+    const offset = (page - 1) * pageSize;
+
+    const {count, rows} = await User.findAndCountAll({
+      limit: pageSize,
+      offset: offset,
+    });
+    res.json({
+      users: rows,
+      total: count
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -44,6 +54,8 @@ export const createUser = async (req, res) => {
     const {
       name,
       lastName,
+      email,
+      password,
       numberDocument,
       bithDate,
       phoneNumber,
@@ -55,6 +67,8 @@ export const createUser = async (req, res) => {
     const newUser = await User.create({
       name,
       lastName,
+      email,
+      password,
       numberDocument,
       bithDate,
       phoneNumber,
@@ -73,7 +87,7 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, lastName, phoneNumber, status, direction } = req.body;
+    const { name, lastName, email, password, phoneNumber, status, direction } = req.body;
 
     // Busca el usuario por su ID
     const user = await User.findByPk(id);
@@ -85,6 +99,8 @@ export const updateUser = async (req, res) => {
     // Actualiza los campos del usuario
     user.name = name;
     user.lastName = lastName;
+    user.email = email;
+    user.password = password;
     user.phoneNumber = phoneNumber;
     user.status = status;
     user.direction = direction;
