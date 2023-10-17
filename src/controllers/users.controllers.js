@@ -89,7 +89,7 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, lastName, email, password, phoneNumber, status, direction } = req.body;
+    const { name, lastName, email, imageUrl, password, phoneNumber, status, direction } = req.body;
 
     // Busca el usuario por su ID
     const user = await User.findByPk(id);
