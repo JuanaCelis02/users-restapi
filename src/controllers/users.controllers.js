@@ -55,6 +55,7 @@ export const createUser = async (req, res) => {
       name,
       lastName,
       email,
+      imageUrl,
       password,
       numberDocument,
       bithDate,
@@ -68,6 +69,7 @@ export const createUser = async (req, res) => {
       name,
       lastName,
       email,
+      imageUrl,
       password,
       numberDocument,
       bithDate,
@@ -100,6 +102,7 @@ export const updateUser = async (req, res) => {
     user.name = name;
     user.lastName = lastName;
     user.email = email;
+    user.imageUrl = imageUrl;
     user.password = password;
     user.phoneNumber = phoneNumber;
     user.status = status;
