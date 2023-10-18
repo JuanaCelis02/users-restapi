@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt"
 import { User } from "../models/User.js";
 import { validationResult } from "express-validator";
 
@@ -65,12 +66,15 @@ export const createUser = async (req, res) => {
       direction,
     } = req.body;
 
+    // Encriptar la contraseña
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 es el número de rondas de salting
+
     const newUser = await User.create({
       name,
       lastName,
       email,
       imageUrl,
-      password,
+      password: hashedPassword,
       numberDocument,
       bithDate,
       phoneNumber,
@@ -78,8 +82,8 @@ export const createUser = async (req, res) => {
       registrationDate,
       direction,
     });
-
-    res.json(newUser);
+    const user = await User.findOne({ where: { email } });
+    res.json(user);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -98,12 +102,17 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado." });
     }
 
+    
+    if(password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      user.password = hashedPassword;
+    }
+
     // Actualiza los campos del usuario
     user.name = name;
     user.lastName = lastName;
     user.email = email;
     user.imageUrl = imageUrl;
-    user.password = password;
     user.phoneNumber = phoneNumber;
     user.status = status;
     user.direction = direction;
@@ -129,7 +138,7 @@ export const deleteUser = async (req, res) => {
       where: { id },
     });
 
-    res.sendStatus(204);
+    res.status(204).json(user);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

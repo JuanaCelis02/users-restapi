@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {createUser, getUsers, updateUser, deleteUser, getUserById, updateUserStatus} from "../controllers/users.controllers.js"
 import { body, validationResult } from "express-validator";
+import { authUser } from '../middlewares/login.middleware.js';
 
 const router = Router()
 
@@ -32,12 +33,12 @@ export const createUserValidation = [
 ];
 
 
-router.get('/users', getUsers)
-router.post('/users', createUserValidation, createUser)
-router.put('/users/:id', updateUser)
-router.delete('/users/:id', deleteUser)
-router.get('/users/:id', getUserById)
-router.patch('/users/:id', updateUserStatus)
+router.get('/users', authUser, getUsers)
+router.post('/users', createUser)
+router.put('/users/:id', authUser, updateUser)
+router.delete('/users/:id', authUser, deleteUser)
+router.get('/users/:id', authUser, getUserById)
+router.patch('/users/:id', authUser, updateUserStatus)
 
 
 export default router

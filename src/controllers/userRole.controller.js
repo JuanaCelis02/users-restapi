@@ -17,7 +17,7 @@ export const createUserRole = async (req, res) => {
         // Crea la relación en la tabla intermedia UserRole
         await user.addRole(role);
 
-        res.status(201).json({ message: "Relación usuario-rol creada con éxito." });
+        res.status(201).json({ message: "Relación usuario-rol creada con éxito.", userRole: user });
     } catch (error) {
         console.error(error);
         console.error(error.name);
@@ -106,7 +106,9 @@ export const updateUserRoles = async (req, res) => {
         const { userId, roleIds } = req.body;
 
         // Busca el usuario en la base de datos
-        const user = await User.findByPk(userId);
+        const user = await User.findByPk(userId, {
+            include: Role, // Incluye la relación con la entidad Role
+          });
 
         if (!user) {
             return res.status(404).json({ message: "Usuario no encontrado." });
@@ -122,7 +124,7 @@ export const updateUserRoles = async (req, res) => {
         // Actualiza la relación en la tabla intermedia UserRole
         await user.setRoles(roles);
 
-        res.json({ message: "Relación usuario-rol actualizada con éxito." });
+        res.json({ message: "Relación usuario-rol actualizada con éxito.", user });
     } catch (error) {
         console.error(error);
         console.error(error.name);
@@ -152,6 +154,27 @@ export const deleteUserRole = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 };
+
+export const getUserWithRoles = async (req, res) => {
+    try {
+      const userId = req.params.id; // Obtiene el ID del usuario de los parámetros de la URL
+  
+      // Busca el usuario por su ID e incluye la relación con los roles
+      const user = await User.findByPk(userId, {
+        include: Role, // Incluye la relación con la entidad Role
+      });
+  
+      if (!user) {
+        return res.status(404).json({ message: "Usuario no encontrado." });
+      }
+  
+      res.json(user);
+    } catch (error) {
+      console.error(error);
+      console.error(error.name);
+      return res.status(500).json({ message: error.message });
+    }
+  };
 
 
 
