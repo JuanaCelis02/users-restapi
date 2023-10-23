@@ -13,7 +13,10 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: 'http://localhost:8080', // URL de tu frontend
+  origin: [
+    'http://localhost:8080',
+    'https://api-students-distribuidos.netlify.app'
+  ], // URL de tu frontend
   methods: 'GET,POST, PUT, DELETE', // Métodos permitidos (ajusta según tus necesidades)
 };
 

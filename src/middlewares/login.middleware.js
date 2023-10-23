@@ -16,7 +16,6 @@ export const authUser = async (req, res, next) => {
      // Agregar el ID del usuario autenticado al objeto de solicitud
      req.user = decoded;
  
-     // Continuar con la ejecución de la solicitud
      next();
    } catch (error) {
      return res.status(401).json({ message: 'Token no válido' });
