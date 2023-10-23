@@ -13,9 +13,7 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: [
-    '*'
-  ], // URL de tu frontend
+  origin: '*', // Acepta trafico de todas las rutas
   methods: 'GET,POST, PUT, DELETE', // Métodos permitidos (ajusta según tus necesidades)
 };
 
